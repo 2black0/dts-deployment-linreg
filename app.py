@@ -6,7 +6,6 @@ import pandas as pd
 app = Flask(__name__)
 
 model_file = open('nb.pkl', 'rb')
-#model = pickle.load(model_file, encoding='bytes')
 model = pickle.load(open('nb.pkl', 'rb'))
 
 @app.route('/')
@@ -22,7 +21,6 @@ def predict():
     
     df= pd.read_csv("data_gender.csv")
     X = df['nama']
-    #y=data_gender['gender']
     
     cv = CountVectorizer()
     X = cv.fit_transform(X) 
@@ -33,13 +31,10 @@ def predict():
     prediction = model.predict(data)
 
     if prediction == 'm':
-        output = 'Male'
+        output = 'Laki-Laki'
     else:
-        output = 'Female'
-    #processed_text = name.upper()
-    #name.mimetype = "text/plain"
-    #name = name[2::-2]
-    #print(name)
+        output = 'Perempuan'
+
     return render_template('index.html', sex=output, names=name)
 
 
