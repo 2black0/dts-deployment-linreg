@@ -1,10 +1,13 @@
+from sklearn.feature_extraction.text import CountVectorizer
 from flask import Flask, request, render_template
 import pickle
+import pandas as pd 
 
 app = Flask(__name__)
 
-model_file = open('model.pkl', 'rb')
-model = pickle.load(model_file, encoding='bytes')
+model_file = open('nb.pkl', 'rb')
+#model = pickle.load(model_file, encoding='bytes')
+model = pickle.load(open('nb.pkl', 'rb'))
 
 @app.route('/')
 def index():
@@ -16,25 +19,28 @@ def predict():
     Predict the insurance cost based on user inputs
     and render the result to the html page
     '''
-    age, sex, smoker = [x for x in request.form.values()]
-
-    data = []
-
-    data.append(int(age))
-    if sex == 'Laki-laki':
-        data.extend([0, 1])
-    else:
-        data.extend([1, 0])
-
-    if smoker == 'Ya':
-        data.extend([0, 1])
-    else:
-        data.extend([1, 0])
     
-    prediction = model.predict([data])
-    output = round(prediction[0], 2)
+    df= pd.read_csv("data_gender.csv")
+    X = df['nama']
+    #y=data_gender['gender']
+    
+    cv = CountVectorizer()
+    X = cv.fit_transform(X) 
+    
+    name = [x for x in request.form.values()]
 
-    return render_template('index.html', insurance_cost=output, age=age, sex=sex, smoker=smoker)
+    data = cv.transform([str(name)])   
+    prediction = model.predict(data)
+
+    if prediction == 'm':
+        output = 'Male'
+    else:
+        output = 'Female'
+    #processed_text = name.upper()
+    #name.mimetype = "text/plain"
+    #name = name[2::-2]
+    #print(name)
+    return render_template('index.html', sex=output, names=name)
 
 
 if __name__ == '__main__':
