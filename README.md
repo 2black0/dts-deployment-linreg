@@ -16,3 +16,8 @@ install module with
 cd dts-deployment-linreg
 pip install -r requirements.txt
 ```
+
+run the app with
+```
+python app.py
+```
