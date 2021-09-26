@@ -5,15 +5,23 @@ download this repo
 git clone https://github.com/2black0/dts-deployment-linreg.git
 ```
 
-make new environment and activated it
+make new environment
 ```
 conda create -n myenv python=3.9
+```
+
+activated the new environment
+```
 conda activate myenv
+```
+
+change directory to project folder
+```
+cd dts-deployment-linreg
 ```
 
 install module
 ```
-cd dts-deployment-linreg
 pip install -r requirements.txt
 ```
 
