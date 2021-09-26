@@ -25,7 +25,7 @@ install module
 pip install -r requirements.txt
 ```
 
-run the app
+run the app (ctrl+C to shutdown the flask services)
 ```
 python app.py
 ```
